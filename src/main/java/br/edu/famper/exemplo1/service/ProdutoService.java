@@ -27,7 +27,15 @@ public class ProdutoService {
     }
 
     public Produto update(Produto produto) {
-        return produtoRepository.save(produto);
+        Produto salvo = produtoRepository.findById(produto.getCodigo()).
+                orElseThrow(() ->
+                        new RuntimeException("Produto nao encontrado!")
+                        );
+        salvo.setNome(produto.getNome());
+        salvo.setDescricao(produto.getDescricao());
+        salvo.setValor(produto.getValor());
+        salvo.setQuantidade(produto.getQuantidade());
+        return produtoRepository.save(salvo);
     }
 
     public void deleteById(Long id) {
